@@ -1,0 +1,63 @@
+version: '3.9'
+services:
+  relay:
+    image: rustdesk/rustdesk-server:1.1.12@sha256:83b008e4f7cb5a37c20481c0accf334997fe91549aee1f57baa6c0169c68c225
+    hostname: relay
+    container_name: rustdesk__relay
+
+    restart: unless-stopped
+
+    ports:
+      - "21117:21117"
+      - "21119:21119"
+
+    volumes:
+      - type: volume
+        source: data
+        target: /root
+
+    networks:
+      - default
+
+    command: hbbr
+
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  server:
+    image: rustdesk/rustdesk-server:1.1.12@sha256:83b008e4f7cb5a37c20481c0accf334997fe91549aee1f57baa6c0169c68c225
+    hostname: server
+    container_name: rustdesk__server
+
+    restart: unless-stopped
+
+    ports:
+      - "21115:21115"
+      - "21116:21116"
+      - "21116:21116/udp"
+      - "21118:21118"
+
+    volumes:
+      - type: volume
+        source: data
+        target: /root
+
+    networks:
+      - default
+
+    command: hbbs
+
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+volumes:
+  data:
+    name: rustdesk__data
+
+networks:
+  default:
+    name: rustdesk__default

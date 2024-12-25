@@ -1,3 +1,2 @@
-# nichijid-rs Deploy
+# RustDesk Deploy
 Deployed on: mitou (compose-cd)
-# rustdesk-deploy
